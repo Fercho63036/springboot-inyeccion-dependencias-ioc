@@ -1,33 +1,18 @@
 package com.ariel.springboot.di.app.springboot.services;
+// Carpeta/paquete donde vive este archivo
 
 import java.util.List;
-import java.util.stream.Collectors;
+// Importa List para usarlo como tipo de retorno
 
 import com.ariel.springboot.di.app.springboot.models.Product;
-import com.ariel.springboot.di.app.springboot.repositories.ProductRepository;
+// Importa la clase Product para usarla en los métodos
 
-// Service: capa que aplica lógica de negocio usando datos del repository sin modificar los originales
-public class ProductService {
+public interface ProductService {
+// Declara el contrato llamado ProductService, visible desde cualquier lugar
 
-    // Crea una instancia del repository para acceder a los datos
-    private ProductRepository repository = new ProductRepository();
+    List<Product> findAll();
+    // Método obligatorio: quien implemente esto DEBE retornar todos los productos
 
-    // Obtiene todos los productos y devuelve copias con el precio aumentado en 25%
-    public List<Product> findAll(){
-        return repository.findAll().stream().map(p -> {
-            // Calcula el nuevo precio con un incremento del 25%
-            Double priceTax = p.getPrice() * 1.25d;
-            // Clona el producto original para no modificar el objeto base
-            Product newProd = (Product) p.clone();
-            // Asigna el nuevo precio al clon (no al original)
-            newProd.setPrice(priceTax.longValue());
-            // Retorna el nuevo producto modificado
-            return newProd;
-        }).collect(Collectors.toList()); // Convierte el stream en lista
-    }
-
-    // Busca un producto por id sin modificarlo
-    public Product findById(Long id){
-        return repository.findById(id);
-    }
+    Product findById (Long id);
+    // Método obligatorio: quien implemente esto DEBE retornar un producto por su id
 }
