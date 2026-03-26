@@ -1,6 +1,7 @@
 package com.ariel.springboot.di.app.springboot.models;
 
-public class Product {
+// Clase modelo que representa un producto y permite ser clonado (copiado)
+public class Product implements Cloneable{
 
     private Long id;
     private String name;
@@ -38,5 +39,17 @@ public class Product {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    // Sobrescribe clone() para permitir copiar el objeto actual
+    @Override
+    public Object clone(){
+        try {
+            // Crea una copia superficial del objeto usando la implementación de Object
+            return super.clone();
+        } catch(CloneNotSupportedException e) {
+            // Si falla la clonación, crea manualmente un nuevo objeto con los mismos valores
+            return new Product(this.getId(), this.getName(), getPrice());
+        }
     }
 }

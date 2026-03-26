@@ -6,22 +6,27 @@ import java.util.stream.Collectors;
 import com.ariel.springboot.di.app.springboot.models.Product;
 import com.ariel.springboot.di.app.springboot.repositories.ProductRepository;
 
-// Service: capa que obtiene datos del repository y aplica lógica de negocio (como el aumento de precios) antes de devolverlos
+// Service: capa que aplica lógica de negocio usando datos del repository sin modificar los originales
 public class ProductService {
 
-    // Inicializa el repository para que el service pueda acceder a los datos
+    // Crea una instancia del repository para acceder a los datos
     private ProductRepository repository = new ProductRepository();
 
-    // Obtiene todos los productos y les aplica un aumento del 25% al precio
+    // Obtiene todos los productos y devuelve copias con el precio aumentado en 25%
     public List<Product> findAll(){
         return repository.findAll().stream().map(p -> {
-            Double priceImp = p.getPrice() * 1.25d;
-            Product newProd = new Product(p.getId(), p.getName(), priceImp.longValue());
+            // Calcula el nuevo precio con un incremento del 25%
+            Double priceTax = p.getPrice() * 1.25d;
+            // Clona el producto original para no modificar el objeto base
+            Product newProd = (Product) p.clone();
+            // Asigna el nuevo precio al clon (no al original)
+            newProd.setPrice(priceTax.longValue());
+            // Retorna el nuevo producto modificado
             return newProd;
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toList()); // Convierte el stream en lista
     }
-    
-    // Busca y retorna un producto por su id desde el repository
+
+    // Busca un producto por id sin modificarlo
     public Product findById(Long id){
         return repository.findById(id);
     }
