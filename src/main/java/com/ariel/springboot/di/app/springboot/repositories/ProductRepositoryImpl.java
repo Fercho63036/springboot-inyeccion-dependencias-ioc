@@ -18,12 +18,12 @@ public class ProductRepositoryImpl implements ProductRepository{
         );
     }
     // Retorna todos los productos almacenados
-    @Override
+    @Override //Estoy implementando métodos definidos en la interfaz pero agregando lógica de negocio
     public List<Product> findAll(){
         return data;
     }
     // Busca un producto por su id en la lista y retorna null si no lo encuentra
-    @Override
+    @Override //Estoy implementando métodos definidos en la interfaz pero agregando lógica de negocio
     public Product findById(Long id){
         return data.stream().filter(p -> p.getId().equals(id)).findFirst().orElse(null);
     }

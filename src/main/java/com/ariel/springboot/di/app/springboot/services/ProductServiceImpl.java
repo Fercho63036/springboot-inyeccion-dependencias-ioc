@@ -13,7 +13,7 @@ public class ProductServiceImpl implements ProductService{
     private ProductRepositoryImpl repository = new ProductRepositoryImpl();
 
     // Obtiene todos los productos y devuelve copias con el precio aumentado en 25%
-    @Override
+    @Override //“Estoy implementando métodos definidos en la interfaz para acceder a datos”
     public List<Product> findAll(){
         return repository.findAll().stream().map(p -> {
             // Calcula el nuevo precio con un incremento del 25%
@@ -28,7 +28,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     // Busca un producto por id sin modificarlo
-    @Override
+    @Override   //“Estoy implementando métodos definidos en la interfaz para acceder a datos”
     public Product findById(Long id){
         return repository.findById(id);
     }
